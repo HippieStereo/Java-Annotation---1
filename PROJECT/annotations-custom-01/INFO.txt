@@ -1,0 +1,9 @@
+Creating a Custom Annotation in Java
+
+https://www.baeldung.com/java-custom-annotation
+
+Three custom annotations with the goal of serializing an object into a JSON string :
+
+- First one on the class level, to indicate to the compiler that our object can be serialized.
+- Second one to the fields that we want to include in the JSON string.
+- Third annotation on the method level, to specify the method that we'll use to initialize our object.
