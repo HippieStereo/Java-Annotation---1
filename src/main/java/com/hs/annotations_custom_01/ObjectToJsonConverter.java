@@ -5,8 +5,27 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class ObjectToJsonConverter {
+	
+	public String convertToJson(Object object) throws JsonSerializationException {
+		
+		try {
+			
+			checkIfSerializable(object);
+			
+			initializeObject(object);
+			
+			return getJsonString(object);
+			
+		} catch (Exception e) {
+			
+			throw new JsonSerializationException(e.getMessage());
+			
+		}
+		
+	}
 	
 	private void checkIfSerializable(Object object) {
 		
