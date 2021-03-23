@@ -1,5 +1,6 @@
 package com.hs.annotations_custom_01;
 
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class ObjectToJsonConverter {
@@ -18,6 +19,23 @@ public class ObjectToJsonConverter {
 			
 			throw new JsonSerializationException("The class " 
 					+ clazz.getSimpleName() + " is not annotated with JsonSerializable");
+			
+		}
+		
+	}
+	
+	private void initializeObject(Object object) throws Exception {
+		
+		Class<?> clazz = object.getClass();
+		
+		for(Method method : clazz.getDeclaredMethods()) {
+			
+			if(method.isAnnotationPresent(Init.class)) {
+				
+				method.setAccessible(true);
+				method.invoke(object);
+				
+			}
 			
 		}
 		
