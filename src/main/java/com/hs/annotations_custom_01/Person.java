@@ -12,8 +12,19 @@ public class Person {
 	@JsonElement(key = "personAge")
 	private String age;
 	
-	@JsonElement
 	private String address;
+
+	public Person(String firstName, String lastName) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    public Person(String firstName, String lastName, String age) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+    }
 	
 	@Init
 	private void initNames() {
