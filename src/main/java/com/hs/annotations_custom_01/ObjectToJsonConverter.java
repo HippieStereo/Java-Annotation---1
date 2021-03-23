@@ -1,6 +1,9 @@
 package com.hs.annotations_custom_01;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ObjectToJsonConverter {
@@ -38,6 +41,41 @@ public class ObjectToJsonConverter {
 			}
 			
 		}
+		
+	}
+	
+	private String getJsonString(Object object) throws Exception {
+		
+		Class<?> clazz = object.getClass();
+		
+		Map<String, String> jsonElementsMap = new HashMap<>();
+		
+		for(Field field : clazz.getDeclaredFields()) {
+			
+			field.setAccessible(true);
+			
+			if(field.isAnnotationPresent(JsonElement.class)) {
+				
+				jsonElementsMap.put(getKey(field), (String) field.get(object));
+				
+			}
+			
+		}
+		
+		String jsonString = jsonElementsMap.entrySet()
+				.stream()
+				.map(entry -> "\"" + entry.getKey() + "\":\"" + entry.getValue() + "\"")
+				.collect(Collectors.joining(","));
+
+		return "{" + jsonString + "}";
+		
+	}
+
+	private String getKey(Field field) {
+		
+		String value = field.getAnnotation(JsonElement.class).key();
+		
+		return value.isEmpty() ? field.getName() : value;
 		
 	}
 
